@@ -1,0 +1,5 @@
+﻿  Sort Algorithms.cpp
+C:\DEV\Sort Algorithms\Sort Algorithms\Sort Algorithms.cpp(19,16): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+C:\DEV\Sort Algorithms\Sort Algorithms\Sort Algorithms.cpp(44,21): warning C4018: ">": Konflikt zwischen "signed" und "unsigned"
+C:\DEV\Sort Algorithms\Sort Algorithms\Sort Algorithms.cpp(73,15): warning C4018: "<=": Konflikt zwischen "signed" und "unsigned"
+C:\DEV\Sort Algorithms\Sort Algorithms\Sort Algorithms.cpp(56,1): error C4716: "InsertionSort_SecondVec": Muss einen Wert zurückgeben
