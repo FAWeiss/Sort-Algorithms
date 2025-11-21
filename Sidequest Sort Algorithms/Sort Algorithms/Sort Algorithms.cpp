@@ -2,75 +2,78 @@
 #include <iostream>
 #include <vector>
 #include <cstdint>
+#include <algorithm>
 
 // Aufgabe Selection Sort mit einem Vekor (Back to coding)
 
+//Funktion von Grund auf überarbeitet, um das Swapping korrekt zu implementieren.
+
 void SelecionSort(std::vector<int>& vec)
 {
-	std::uint32_t min_val = 0;
-	size_t prev_index = 0;
-
-	for (size_t min_index = 0; min_index < vec.size(); ++min_index)
+	if (vec.empty())
 	{
-		min_val = vec[min_index];
+		std::cerr << "Vector empty!\n";
+		return;
+	}
 
-		for (size_t j = 0; j < vec.size(); ++j)
-		{
-			if (vec[j] < min_val)
-			{
-				min_val = vec[j];
-				prev_index = j;
-			}
-		}
-		vec[prev_index] = vec[min_index];
-		vec[min_index] = min_val;
+	std::vector<int>::iterator min_pos;
+
+	for (size_t i = 0; i < vec.size(); ++i)
+	{
+		min_pos = std::min_element(vec.begin() + i, vec.end());
+		std::swap(*(vec.begin() + i), *min_pos);
 	}
 }
 
 // Aufgabe Insertion Sort Algorithm mit zwei Vektoren (sortiert und unsortiert)
 
+// Manuelles Verschieben der Iteratoren hat nicht zuverlässsig funktioniert (out of bounds), 
+// daher die Funktion noch mal von Grund auf überarbeitet und stattdessen insert verwendet
+
 std::vector<int> InsertionSort_SecondVec(std::vector<int>& unsorted_vec)
 {
-	std::vector<int> sorted_vec;
-	std::vector<int>::iterator sort_pos = sorted_vec.end();
-	std::vector<int>::iterator shift_pos;
-	std::uint32_t val = *unsorted_vec.begin();
-
-	while (unsorted_vec.size() > 0)
+	if (unsorted_vec.empty())
 	{
-		val = *unsorted_vec.begin();
-		sort_pos = sorted_vec.end();
+		std::cerr << "Vector empty!\n";
+		return{};
+	}
 
-		while (*sort_pos > val)
-		{
-			shift_pos = sort_pos + 1;
-			*shift_pos = *sort_pos;
+	std::vector<int> sorted_vec;
+	std::vector<int>::iterator sort_pos;
 
-			--sort_pos;
-		}
-
-		*sort_pos = val;
-
+	while (!unsorted_vec.empty())
+	{
+		sort_pos = std::upper_bound(sorted_vec.begin(), sorted_vec.end(), unsorted_vec.front());
+		sorted_vec.insert(sort_pos, unsorted_vec.front());
 		unsorted_vec.erase(unsorted_vec.begin());
 	}
+	return sorted_vec;
 }
 
 // Aufgabe Insertion Sort mit einem Vektor (Back to coding)
 
+// Out of bounds Zugriffe ausgebessert
+
 void InsertionSort_SingleVec(std::vector<int>& vec)
 {
-	std::vector<int>::iterator val_pos = vec.begin();
+	if (vec.empty())
+	{
+		std::cerr << "Vector empty!\n";
+		return;
+	}
+
+	std::vector<int>::iterator val_pos = vec.begin() + 1;
 	std::vector<int>::iterator sort_pos = vec.begin();
 	std::vector<int>::iterator shift_from_pos;
 	std::vector<int>::iterator shift_to_pos;
-	std::uint32_t val = *val_pos;
+	std::int32_t val = *val_pos;
 
 	while (val_pos != vec.end())
 	{
 		val = *val_pos;
 		sort_pos = val_pos;
 
-		while (val <= *sort_pos)
+		while ((sort_pos != vec.begin()) && (val <= *sort_pos))
 		{
 			--sort_pos;
 		}
@@ -93,22 +96,33 @@ void InsertionSort_SingleVec(std::vector<int>& vec)
 
 // Aufgabe Bubble Sort Algorithm mit einem Vektor
 
+// Äußere Schleife hinzugefügt
+
 void BubbleSort(std::vector<int>& vec)
 {
+	if (vec.empty())
+	{
+		std::cerr << "Vector empty!\n";
+		return;
+	}
+
 	std::vector<int>::iterator first_val = vec.begin();
 	std::vector<int>::iterator second_val = vec.begin() + 1;
 	std::uint32_t temp = 0;
 
-	while (second_val != vec.end())
+	for (size_t i = 0; i < vec.size(); ++i)
 	{
-		if (*first_val > *second_val)
+		while (second_val != vec.end())
 		{
-			temp = *second_val;
-			*second_val = *first_val;
-			*first_val = temp;
+			if (*first_val > *second_val)
+			{
+				temp = *second_val;
+				*second_val = *first_val;
+				*first_val = temp;
+			}
+			++first_val;
+			++second_val;
 		}
-		++first_val;
-		++second_val;
 	}
 }
 
@@ -116,6 +130,12 @@ void BubbleSort(std::vector<int>& vec)
 
 void BubbleSortChatGpt(std::vector<int>& vec)
 {
+	if (vec.empty())
+	{
+		std::cerr << "Vector empty!\n";
+		return;
+	}
+
 	std::uint32_t temp = 0;
 
 	for (size_t i = 0; i < vec.size(); ++i)
@@ -131,5 +151,3 @@ void BubbleSortChatGpt(std::vector<int>& vec)
 		}
 	}
 }
-
-
